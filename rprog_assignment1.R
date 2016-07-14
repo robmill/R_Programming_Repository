@@ -4,9 +4,9 @@
 
 pollutantmean<-function(directory, pollutant, id=1:332){
         # location of the CSV files
-        setwd(directory)
-        
-        pollutant<-tolower(pollutant)
+        path<-paste("c:/users/robmill/Documents/Github/R_Programming_Repository/"
+                    ,directory,sep = "")
+        setwd(path)
         
         # pollutant is a character vector of length 1
         # the name of the pollutant for which we calculate the mean
@@ -18,7 +18,7 @@ pollutantmean<-function(directory, pollutant, id=1:332){
         
         # capture list of monitor files in dataframe df
         # subset dataframe df by id monitors
-        df<-as.data.frame(list.files(path=directory, pattern="^[0-3]"), 
+        df<-as.data.frame(list.files(path=".", pattern="^[0-3]"), 
                           stringsAsFactors=FALSE)
         df<-as.data.frame(df[id,],stringsAsFactors=FALSE)
 

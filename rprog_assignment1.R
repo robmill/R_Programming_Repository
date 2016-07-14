@@ -21,20 +21,22 @@ pollutantmean<-function(directory, pollutant, id=1:332){
         df<-as.data.frame(list.files(path=directory, pattern="^[0-3]"), 
                           stringsAsFactors=FALSE)
         df<-as.data.frame(df[id,],stringsAsFactors=FALSE)
-        
-        # read each monitor file, rbind to dataframe monitor
-        monitor<-read.csv(df[1,])
-        if(nrow(df)>1){
-                for (i in 2:nrow(df)) {
-                        temp<-read.csv(df[i,])
-                        monitor<-rbind(monitor,temp)
-                }
+
+        # instantiate monitor
+        # run for loop to read in monitor file
+        # and rbind to monitor
+        monitor<-NULL
+        for (i in 1:nrow(df)) {
+                temp<-read.csv(df[i,])
+                monitor<-rbind(monitor,temp)
         }
+   
         
         # subset monitor for complete cases of pollutant
         monitor<-monitor[complete.cases(monitor[,pollutant]),]
         
-        # return mean
+        # compute mean
+        # round to significant figures matching example output
         pol_mean<-mean(monitor[,pollutant])
         round(pol_mean,3)
         

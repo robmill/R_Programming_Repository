@@ -14,11 +14,22 @@ corr<-function(directory, threshold=0){
         
         df_complete<-as.data.frame(complete(directory))
         df_complete<-df_complete[df_complete$nobs>threshold,]
+        df_index<-as.vector(df_complete$id,mode = "integer")
+        
 
         
+        df<-as.data.frame(df[df_index,])
         
+        output<-NULL
+        correlation<-NULL
+        
+        for (i in 1:nrow(df)) {
+                monitor<-read.csv(as.character(df[i,]))
+               monitor<-monitor[complete.cases(monitor),]
+                output<-rbind(output,monitor)
+        }
 
 
         
-        df_complete
+        cor(output[,"nitrate"],output[,"sulfate"])
 }

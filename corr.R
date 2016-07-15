@@ -14,22 +14,30 @@ corr<-function(directory, threshold=0){
         
         df_complete<-as.data.frame(complete(directory))
         df_complete<-df_complete[df_complete$nobs>threshold,]
+        
         df_index<-as.vector(df_complete$id,mode = "integer")
         
 
         
         df<-as.data.frame(df[df_index,])
-        
-        output<-NULL
+        if(nrow(df)==0){
+                df<-as.vector(0)
+                length(df)<-0
+                return(as.vector(df))
+        }
+
         correlation<-NULL
         
         for (i in 1:nrow(df)) {
                 monitor<-read.csv(as.character(df[i,]))
-               monitor<-monitor[complete.cases(monitor),]
-                output<-rbind(output,monitor)
+                monitor<-monitor[complete.cases(monitor),]
+                correlationTemp<-cor(monitor[,"nitrate"],monitor[,"sulfate"])
+                correlation<-cbind(correlation, correlationTemp)
+                
         }
+        correlation
+        df
+        cor(monitor[,"nitrate"],monitor[,"sulfate"])
+        as.vector(correlation)
 
-
-        
-        cor(output[,"nitrate"],output[,"sulfate"])
 }
